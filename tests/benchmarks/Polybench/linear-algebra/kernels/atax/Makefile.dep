@@ -1,0 +1,3 @@
+atax.o: atax.c ../../../utilities/polybench.h \
+ /home/yuchao/Workspace/PIM/MultiPIM/misc/hooks/zsim_hooks.h atax.h
+polybench.o: ../../../utilities/polybench.c

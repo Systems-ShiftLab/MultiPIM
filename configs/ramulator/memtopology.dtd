@@ -1,0 +1,27 @@
+<!ELEMENT memtopology (memnodes,meminterconnections,memroutes)>
+
+<!ELEMENT memnodes (node*)>
+<!ATTLIST memnodes num CDATA #REQUIRED>
+<!ATTLIST memnodes linkspernode CDATA #REQUIRED>
+<!ELEMENT node (link*)>
+<!ELEMENT link EMPTY>
+<!ATTLIST node id CDATA #REQUIRED>
+<!ATTLIST link id CDATA #REQUIRED>
+<!ATTLIST link tocpu CDATA #IMPLIED>
+
+<!ELEMENT meminterconnections (interconnection*)>
+<!ELEMENT interconnection EMPTY>
+<!ATTLIST interconnection from CDATA #REQUIRED>
+<!ATTLIST interconnection to CDATA #REQUIRED>
+<!ATTLIST interconnection type CDATA #IMPLIED>
+
+<!ELEMENT memroutes (route*,cpuroute*)>
+<!ATTLIST memroutes type CDATA #REQUIRED>
+<!ELEMENT route EMPTY>
+<!ATTLIST route src CDATA #REQUIRED>
+<!ATTLIST route dst CDATA #REQUIRED>
+<!ATTLIST route next CDATA #REQUIRED>
+
+<!ELEMENT cpuroute EMPTY>
+<!ATTLIST cpuroute dst CDATA #REQUIRED>
+<!ATTLIST cpuroute next CDATA #REQUIRED>

@@ -1,0 +1,420 @@
+<!DOCTYPE memtopology SYSTEM "memtopology.dtd">
+<memtopology>
+  <memnodes num="16" linkspernode="4">
+    <node id="0">
+        <link id="0" tocpu="true" />
+        <link id="1" tocpu="false" />
+        <link id="2" tocpu="false" />
+        <link id="3" tocpu="false" />
+    </node>
+    <node id="1">
+        <link id="4" tocpu="false" />
+        <link id="5" tocpu="false" />
+        <link id="6" tocpu="false" />
+        <link id="7" tocpu="false" />
+    </node>
+    <node id="2">
+        <link id="8" tocpu="false" />
+        <link id="9" tocpu="false" />
+        <link id="10" tocpu="false" />
+        <link id="11" tocpu="false" />
+    </node>
+    <node id="3">
+        <link id="12" tocpu="false" />
+        <link id="13" tocpu="false" />
+        <link id="14" tocpu="false" />
+        <link id="15" tocpu="false" />
+    </node>
+    <node id="4">
+        <link id="16" tocpu="true" />
+        <link id="17" tocpu="false" />
+        <link id="18" tocpu="false" />
+        <link id="19" tocpu="false" />
+    </node>
+    <node id="5">
+        <link id="20" tocpu="false" />
+        <link id="21" tocpu="false" />
+        <link id="22" tocpu="false" />
+        <link id="23" tocpu="false" />
+    </node>
+    <node id="6">
+        <link id="24" tocpu="false" />
+        <link id="25" tocpu="false" />
+        <link id="26" tocpu="false" />
+        <link id="27" tocpu="false" />
+    </node>
+    <node id="7">
+        <link id="28" tocpu="false" />
+        <link id="29" tocpu="false" />
+        <link id="30" tocpu="false" />
+        <link id="31" tocpu="false" />
+    </node>
+    <node id="8">
+        <link id="32" tocpu="true" />
+        <link id="33" tocpu="false" />
+        <link id="34" tocpu="false" />
+        <link id="35" tocpu="false" />
+    </node>
+    <node id="9">
+        <link id="36" tocpu="false" />
+        <link id="37" tocpu="false" />
+        <link id="38" tocpu="false" />
+        <link id="39" tocpu="false" />
+    </node>
+    <node id="10">
+        <link id="40" tocpu="false" />
+        <link id="41" tocpu="false" />
+        <link id="42" tocpu="false" />
+        <link id="43" tocpu="false" />
+    </node>
+    <node id="11">
+        <link id="44" tocpu="false" />
+        <link id="45" tocpu="false" />
+        <link id="46" tocpu="false" />
+        <link id="47" tocpu="false" />
+    </node>
+    <node id="12">
+        <link id="48" tocpu="true" />
+        <link id="49" tocpu="false" />
+        <link id="50" tocpu="false" />
+        <link id="51" tocpu="false" />
+    </node>
+    <node id="13">
+        <link id="52" tocpu="false" />
+        <link id="53" tocpu="false" />
+        <link id="54" tocpu="false" />
+        <link id="55" tocpu="false" />
+    </node>
+    <node id="14">
+        <link id="56" tocpu="false" />
+        <link id="57" tocpu="false" />
+        <link id="58" tocpu="false" />
+        <link id="59" tocpu="false" />
+    </node>
+    <node id="15">
+        <link id="60" tocpu="false" />
+        <link id="61" tocpu="false" />
+        <link id="62" tocpu="false" />
+        <link id="63" tocpu="false" />
+    </node>
+  </memnodes>
+
+  <meminterconnections>
+    <interconnection from="1" to="4" type="undirected" />
+    <interconnection from="3" to="13" type="undirected" />
+    <interconnection from="10" to="15" type="undirected" />
+    <interconnection from="6" to="8" type="undirected" />
+    <interconnection from="2" to="11" type="undirected" />
+    <interconnection from="7" to="14" type="undirected" />
+
+    <interconnection from="17" to="20" type="undirected" />
+    <interconnection from="19" to="29" type="undirected" />
+    <interconnection from="22" to="24" type="undirected" />
+    <interconnection from="26" to="31" type="undirected" />
+    <interconnection from="18" to="27" type="undirected" />
+    <interconnection from="23" to="30" type="undirected" />
+
+    <interconnection from="33" to="36" type="undirected" />
+    <interconnection from="35" to="46" type="undirected" />
+    <interconnection from="38" to="40" type="undirected" />
+    <interconnection from="42" to="44" type="undirected" />
+    <interconnection from="34" to="43" type="undirected" />
+    <interconnection from="39" to="47" type="undirected" />
+
+    <interconnection from="51" to="62" type="undirected" />
+    <interconnection from="52" to="49" type="undirected" />
+    <interconnection from="54" to="56" type="undirected" />
+    <interconnection from="58" to="60" type="undirected" />
+    <interconnection from="50" to="59" type="undirected" />
+    <interconnection from="55" to="63" type="undirected" />
+
+    <interconnection from="5" to="21" type="undirected" />
+    <interconnection from="9" to="57" type="undirected" />
+    <interconnection from="12" to="37" type="undirected" />
+    <interconnection from="25" to="41" type="undirected" />
+    <interconnection from="28" to="53" type="undirected" />
+    <interconnection from="45" to="61" type="undirected" />
+  </meminterconnections>
+
+  <!--
+      Define routing rules. 
+      src: is the source memory node
+      dst: is the destinate memory node
+      next: is the routing link in source emory node
+  -->
+  <memroutes type="static">
+    <route src="0" dst="1" next="1"/>
+    <route src="0" dst="2" next="2"/>
+    <route src="0" dst="3" next="3"/>
+    <route src="0" dst="4" next="1"/>
+    <route src="0" dst="5" next="1"/>
+    <route src="0" dst="6" next="1"/>
+    <route src="0" dst="7" next="1"/>
+    <route src="0" dst="8" next="3"/>
+    <route src="0" dst="9" next="3"/>
+    <route src="0" dst="10" next="3"/>
+    <route src="0" dst="11" next="3"/>
+    <route src="0" dst="12" next="2"/>
+    <route src="0" dst="13" next="2"/>
+    <route src="0" dst="14" next="2"/>
+    <route src="0" dst="15" next="2"/>
+
+    <route src="1" dst="0" next="4"/>
+    <route src="1" dst="2" next="6"/>
+    <route src="1" dst="3" next="7"/>
+    <route src="1" dst="4" next="5"/>
+    <route src="1" dst="5" next="5"/>
+    <route src="1" dst="6" next="5"/>
+    <route src="1" dst="7" next="5"/>
+    <route src="1" dst="8" next="7"/>
+    <route src="1" dst="9" next="7"/>
+    <route src="1" dst="10" next="7"/>
+    <route src="1" dst="11" next="7"/>
+    <route src="1" dst="12" next="6"/>
+    <route src="1" dst="13" next="6"/>
+    <route src="1" dst="14" next="6"/>
+    <route src="1" dst="15" next="6"/>
+
+    <route src="2" dst="0" next="11"/>
+    <route src="2" dst="1" next="8"/>
+    <route src="2" dst="3" next="10"/>
+    <route src="2" dst="4" next="8"/>
+    <route src="2" dst="5" next="8"/>
+    <route src="2" dst="6" next="8"/>
+    <route src="2" dst="7" next="8"/>
+    <route src="2" dst="8" next="10"/>
+    <route src="2" dst="9" next="10"/>
+    <route src="2" dst="10" next="10"/>
+    <route src="2" dst="11" next="10"/>
+    <route src="2" dst="12" next="9"/>
+    <route src="2" dst="13" next="9"/>
+    <route src="2" dst="14" next="9"/>
+    <route src="2" dst="15" next="9"/>
+
+    <route src="3" dst="0" next="13"/>
+    <route src="3" dst="1" next="14"/>
+    <route src="3" dst="2" next="15"/>
+    <route src="3" dst="4" next="14"/>
+    <route src="3" dst="5" next="14"/>
+    <route src="3" dst="6" next="14"/>
+    <route src="3" dst="7" next="14"/>
+    <route src="3" dst="8" next="12"/>
+    <route src="3" dst="9" next="12"/>
+    <route src="3" dst="10" next="12"/>
+    <route src="3" dst="11" next="12"/>
+    <route src="3" dst="12" next="15"/>
+    <route src="3" dst="13" next="15"/>
+    <route src="3" dst="14" next="15"/>
+    <route src="3" dst="15" next="15"/>
+
+    <route src="4" dst="0" next="17"/>
+    <route src="4" dst="1" next="17"/>
+    <route src="4" dst="2" next="17"/>
+    <route src="4" dst="3" next="17"/>
+    <route src="4" dst="5" next="17"/>
+    <route src="4" dst="6" next="18"/>
+    <route src="4" dst="7" next="19"/>
+    <route src="4" dst="8" next="18"/>
+    <route src="4" dst="9" next="18"/>
+    <route src="4" dst="10" next="18"/>
+    <route src="4" dst="11" next="18"/>
+    <route src="4" dst="12" next="19"/>
+    <route src="4" dst="13" next="19"/>
+    <route src="4" dst="14" next="19"/>
+    <route src="4" dst="15" next="19"/>
+
+    <route src="5" dst="0" next="21"/>
+    <route src="5" dst="1" next="21"/>
+    <route src="5" dst="2" next="21"/>
+    <route src="5" dst="3" next="21"/>
+    <route src="5" dst="4" next="20"/>
+    <route src="5" dst="6" next="22"/>
+    <route src="5" dst="7" next="23"/>
+    <route src="5" dst="8" next="22"/>
+    <route src="5" dst="9" next="22"/>
+    <route src="5" dst="10" next="22"/>
+    <route src="5" dst="11" next="22"/>
+    <route src="5" dst="12" next="23"/>
+    <route src="5" dst="13" next="23"/>
+    <route src="5" dst="14" next="23"/>
+    <route src="5" dst="15" next="23"/>
+
+    <route src="6" dst="0" next="24"/>
+    <route src="6" dst="1" next="24"/>
+    <route src="6" dst="2" next="24"/>
+    <route src="6" dst="3" next="24"/>
+    <route src="6" dst="4" next="27"/>
+    <route src="6" dst="5" next="24"/>
+    <route src="6" dst="7" next="26"/>
+    <route src="6" dst="8" next="25"/>
+    <route src="6" dst="9" next="25"/>
+    <route src="6" dst="10" next="25"/>
+    <route src="6" dst="11" next="25"/>
+    <route src="6" dst="12" next="26"/>
+    <route src="6" dst="13" next="26"/>
+    <route src="6" dst="14" next="26"/>
+    <route src="6" dst="15" next="26"/>
+
+    <route src="7" dst="0" next="30"/>
+    <route src="7" dst="1" next="30"/>
+    <route src="7" dst="2" next="30"/>
+    <route src="7" dst="3" next="30"/>
+    <route src="7" dst="4" next="29"/>
+    <route src="7" dst="5" next="30"/>
+    <route src="7" dst="6" next="31"/>
+    <route src="7" dst="8" next="31"/>
+    <route src="7" dst="9" next="31"/>
+    <route src="7" dst="10" next="31"/>
+    <route src="7" dst="11" next="31"/>
+    <route src="7" dst="12" next="28"/>
+    <route src="7" dst="13" next="28"/>
+    <route src="7" dst="14" next="28"/>
+    <route src="7" dst="15" next="28"/>
+
+    <route src="8" dst="0" next="33"/>
+    <route src="8" dst="1" next="33"/>
+    <route src="8" dst="2" next="33"/>
+    <route src="8" dst="3" next="33"/>
+    <route src="8" dst="4" next="34"/>
+    <route src="8" dst="5" next="34"/>
+    <route src="8" dst="6" next="34"/>
+    <route src="8" dst="7" next="34"/>
+    <route src="8" dst="9" next="33"/>
+    <route src="8" dst="10" next="34"/>
+    <route src="8" dst="11" next="35"/>
+    <route src="8" dst="12" next="35"/>
+    <route src="8" dst="13" next="35"/>
+    <route src="8" dst="14" next="35"/>
+    <route src="8" dst="15" next="35"/>
+
+    <route src="9" dst="0" next="37"/>
+    <route src="9" dst="1" next="37"/>
+    <route src="9" dst="2" next="37"/>
+    <route src="9" dst="3" next="37"/>
+    <route src="9" dst="4" next="38"/>
+    <route src="9" dst="5" next="38"/>
+    <route src="9" dst="6" next="38"/>
+    <route src="9" dst="7" next="38"/>
+    <route src="9" dst="8" next="36"/>
+    <route src="9" dst="10" next="38"/>
+    <route src="9" dst="11" next="39"/>
+    <route src="9" dst="12" next="39"/>
+    <route src="9" dst="13" next="39"/>
+    <route src="9" dst="14" next="39"/>
+    <route src="9" dst="15" next="39"/>
+
+    <route src="10" dst="0" next="40"/>
+    <route src="10" dst="1" next="40"/>
+    <route src="10" dst="2" next="40"/>
+    <route src="10" dst="3" next="40"/>
+    <route src="10" dst="4" next="41"/>
+    <route src="10" dst="5" next="41"/>
+    <route src="10" dst="6" next="41"/>
+    <route src="10" dst="7" next="41"/>
+    <route src="10" dst="8" next="43"/>
+    <route src="10" dst="9" next="40"/>
+    <route src="10" dst="11" next="42"/>
+    <route src="10" dst="12" next="42"/>
+    <route src="10" dst="13" next="42"/>
+    <route src="10" dst="14" next="42"/>
+    <route src="10" dst="15" next="42"/>
+
+    <route src="11" dst="0" next="47"/>
+    <route src="11" dst="1" next="47"/>
+    <route src="11" dst="2" next="47"/>
+    <route src="11" dst="3" next="47"/>
+    <route src="11" dst="4" next="44"/>
+    <route src="11" dst="5" next="44"/>
+    <route src="11" dst="6" next="44"/>
+    <route src="11" dst="7" next="44"/>
+    <route src="11" dst="8" next="46"/>
+    <route src="11" dst="9" next="47"/>
+    <route src="11" dst="10" next="44"/>
+    <route src="11" dst="12" next="45"/>
+    <route src="11" dst="13" next="45"/>
+    <route src="11" dst="14" next="45"/>
+    <route src="11" dst="15" next="45"/>
+
+    <route src="12" dst="0" next="50"/>
+    <route src="12" dst="1" next="50"/>
+    <route src="12" dst="2" next="50"/>
+    <route src="12" dst="3" next="50"/>
+    <route src="12" dst="4" next="49"/>
+    <route src="12" dst="5" next="49"/>
+    <route src="12" dst="6" next="49"/>
+    <route src="12" dst="7" next="49"/>
+    <route src="12" dst="8" next="51"/>
+    <route src="12" dst="9" next="51"/>
+    <route src="12" dst="10" next="51"/>
+    <route src="12" dst="11" next="51"/>
+    <route src="12" dst="13" next="49"/>
+    <route src="12" dst="14" next="50"/>
+    <route src="12" dst="15" next="51"/>
+
+    <route src="13" dst="0" next="54"/>
+    <route src="13" dst="1" next="54"/>
+    <route src="13" dst="2" next="54"/>
+    <route src="13" dst="3" next="54"/>
+    <route src="13" dst="4" next="53"/>
+    <route src="13" dst="5" next="53"/>
+    <route src="13" dst="6" next="53"/>
+    <route src="13" dst="7" next="53"/>
+    <route src="13" dst="8" next="55"/>
+    <route src="13" dst="9" next="55"/>
+    <route src="13" dst="10" next="55"/>
+    <route src="13" dst="11" next="55"/>
+    <route src="13" dst="12" next="52"/>
+    <route src="13" dst="14" next="54"/>
+    <route src="13" dst="15" next="55"/>
+
+    <route src="14" dst="0" next="57"/>
+    <route src="14" dst="1" next="57"/>
+    <route src="14" dst="2" next="57"/>
+    <route src="14" dst="3" next="57"/>
+    <route src="14" dst="4" next="56"/>
+    <route src="14" dst="5" next="56"/>
+    <route src="14" dst="6" next="56"/>
+    <route src="14" dst="7" next="56"/>
+    <route src="14" dst="8" next="58"/>
+    <route src="14" dst="9" next="58"/>
+    <route src="14" dst="10" next="58"/>
+    <route src="14" dst="11" next="58"/>
+    <route src="14" dst="12" next="59"/>
+    <route src="14" dst="13" next="56"/>
+    <route src="14" dst="15" next="58"/>
+
+    <route src="15" dst="0" next="60"/>
+    <route src="15" dst="1" next="60"/>
+    <route src="15" dst="2" next="60"/>
+    <route src="15" dst="3" next="60"/>
+    <route src="15" dst="4" next="63"/>
+    <route src="15" dst="5" next="63"/>
+    <route src="15" dst="6" next="63"/>
+    <route src="15" dst="7" next="63"/>
+    <route src="15" dst="8" next="61"/>
+    <route src="15" dst="9" next="61"/>
+    <route src="15" dst="10" next="61"/>
+    <route src="15" dst="11" next="61"/>
+    <route src="15" dst="12" next="62"/>
+    <route src="15" dst="13" next="63"/>
+    <route src="15" dst="14" next="60"/>
+
+    <cpuroute dst="0" next="0"/>
+    <cpuroute dst="1" next="0"/>
+    <cpuroute dst="2" next="0"/>
+    <cpuroute dst="3" next="0"/>
+    <cpuroute dst="4" next="16"/>
+    <cpuroute dst="5" next="16"/>
+    <cpuroute dst="6" next="16"/>
+    <cpuroute dst="7" next="16"/>
+    <cpuroute dst="8" next="32"/>
+    <cpuroute dst="9" next="32"/>
+    <cpuroute dst="10" next="32"/>
+    <cpuroute dst="11" next="32"/>
+    <cpuroute dst="12" next="48"/>
+    <cpuroute dst="13" next="48"/>
+    <cpuroute dst="14" next="48"/>
+    <cpuroute dst="15" next="48"/>
+
+  </memroutes>
+</memtopology>

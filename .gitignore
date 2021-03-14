@@ -1,0 +1,12 @@
+*.o
+*.so
+*.a
+*.h5
+*.out
+*.stats
+/traces
+/build
+/benchmarks
+/analysis
+/tests/output
+.vscode
