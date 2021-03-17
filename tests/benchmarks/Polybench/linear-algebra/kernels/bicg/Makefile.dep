@@ -1,0 +1,3 @@
+bicg.o: bicg.c ../../../utilities/polybench.h \
+ /home/yuchao/Workspace/PIM/MultiPIM/misc/hooks/zsim_hooks.h bicg.h
+polybench.o: ../../../utilities/polybench.c

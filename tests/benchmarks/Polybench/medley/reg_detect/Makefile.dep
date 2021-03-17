@@ -1,0 +1,2 @@
+reg_detect.o: reg_detect.c ../../utilities/polybench.h reg_detect.h
+polybench.o: ../../utilities/polybench.c

@@ -1,0 +1,12 @@
+
+ZSIM_PATH="/home/yuchao/Workspace/PIM/MultiPIM"
+ZSIM_BIN_PATH="$ZSIM_PATH/build/opt"
+LIB_ZSIM_PATH="$ZSIM_PATH/build/opt"
+LIBCONFIGPATH="$ZSIM_PATH/common/libconfig/lib"
+OMP_NUM_THREADS=32
+OMP_SCHEDULE="static"
+export PIN_PATH="$ZSIM_PATH/pin"
+export ZSIM_PATH
+export LIB_ZSIM_PATH
+export OMP_NUM_THREADS
+export LIBRARY_PATH=$LIBCONFIGPATH:$LIBRARY_PATH

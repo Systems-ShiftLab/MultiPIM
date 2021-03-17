@@ -1,0 +1,9 @@
+/traces
+/build
+/benchmarks
+/analysis
+/tests/output
+*.h5
+*.out
+*.stats
+.vscode
