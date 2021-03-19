@@ -182,6 +182,18 @@ int PIMCore::get_offload_code()
     return threadBBLStatus->offload_code;
 }
 
+
+inline bool PIMCore::inOffloadBLK(){
+    bool cur_pim_bbl = false;
+
+    if(threadBBLStatus->offload_code){
+        cur_pim_bbl = true;
+    }else if(threadBBLStatus->need_offload){
+        cur_pim_bbl = true;
+    }
+    return cur_pim_bbl;
+}
+
 void PIMCore::join() {
     DEBUG_MSG("[%s] Joining, curCycle %ld phaseEnd %ld", name.c_str(), curCycle, phaseEndCycle);
     curCycle = cRec.notifyJoin(curCycle);
@@ -256,21 +268,37 @@ void PIMCore::OffloadEnd(THREADID tid) {
 }
 
 void PIMCore::LoadAndRecordFunc(THREADID tid, ADDRINT addr, UINT32 size, BOOL inOffloadRegion) {
-    if(zinfo->enable_pim_mode && zinfo->skipNonOffloadBBL && !inOffloadRegion)
+    PIMCore* core = static_cast<PIMCore*>(cores[tid]);
+    bool cur_pim_bbl = inOffloadRegion;
+    if(! cur_pim_bbl && core->inOffloadBLK())
+        cur_pim_bbl = true;
+
+    if(zinfo->skipNonOffloadBBL && !cur_pim_bbl)
         return;
-    static_cast<PIMCore*>(cores[tid])->loadAndRecord(addr);
+    core->loadAndRecord(addr);
+    // static_cast<PIMCore*>(cores[tid])->loadAndRecord(addr);
 }
 
 void PIMCore::StoreAndRecordFunc(THREADID tid, ADDRINT addr, UINT32 size, BOOL inOffloadRegion) {
-    if(zinfo->enable_pim_mode && zinfo->skipNonOffloadBBL && !inOffloadRegion)
+    PIMCore* core = static_cast<PIMCore*>(cores[tid]);
+    bool cur_pim_bbl = inOffloadRegion;
+    if(! cur_pim_bbl && core->inOffloadBLK())
+        cur_pim_bbl = true;
+
+    if(zinfo->skipNonOffloadBBL && !cur_pim_bbl)
         return;
-    static_cast<PIMCore*>(cores[tid])->storeAndRecord(addr);
+    core->storeAndRecord(addr);
+    // static_cast<PIMCore*>(cores[tid])->storeAndRecord(addr);
 }
 
 void PIMCore::BblAndRecordFunc(THREADID tid, ADDRINT bblAddr, BblInfo* bblInfo, BOOL inOffloadRegion) {
-    if(zinfo->enable_pim_mode && zinfo->skipNonOffloadBBL && !inOffloadRegion)
-        return;
     PIMCore* core = static_cast<PIMCore*>(cores[tid]);
+    bool cur_pim_bbl = inOffloadRegion;
+    if(! cur_pim_bbl && core->inOffloadBLK())
+        cur_pim_bbl = true;
+
+    if(zinfo->skipNonOffloadBBL && !cur_pim_bbl)
+        return;
     core->bblAndRecord(bblAddr, bblInfo);
 
     while (core->curCycle > core->phaseEndCycle) {
@@ -282,13 +310,25 @@ void PIMCore::BblAndRecordFunc(THREADID tid, ADDRINT bblAddr, BblInfo* bblInfo, 
 }
 
 void PIMCore::PredLoadAndRecordFunc(THREADID tid, ADDRINT addr, BOOL pred, UINT32 size, BOOL inOffloadRegion) {
-    if(zinfo->enable_pim_mode && zinfo->skipNonOffloadBBL && !inOffloadRegion)
+    PIMCore* core = static_cast<PIMCore*>(cores[tid]);
+    bool cur_pim_bbl = inOffloadRegion;
+    if(! cur_pim_bbl && core->inOffloadBLK())
+        cur_pim_bbl = true;
+
+    if(zinfo->skipNonOffloadBBL && !cur_pim_bbl)
         return;
-    if (pred) static_cast<PIMCore*>(cores[tid])->loadAndRecord(addr);
+    if (pred) core->loadAndRecord(addr);
+    // if (pred) static_cast<PIMCore*>(cores[tid])->loadAndRecord(addr);
 }
 
 void PIMCore::PredStoreAndRecordFunc(THREADID tid, ADDRINT addr, BOOL pred, UINT32 size, BOOL inOffloadRegion) {
-    if(zinfo->enable_pim_mode && zinfo->skipNonOffloadBBL && !inOffloadRegion)
+    PIMCore* core = static_cast<PIMCore*>(cores[tid]);
+    bool cur_pim_bbl = inOffloadRegion;
+    if(! cur_pim_bbl && core->inOffloadBLK())
+        cur_pim_bbl = true;
+
+    if(zinfo->skipNonOffloadBBL && !cur_pim_bbl)
         return;
-    if (pred) static_cast<PIMCore*>(cores[tid])->storeAndRecord(addr);
+    if (pred) core->storeAndRecord(addr);
+    // if (pred) static_cast<PIMCore*>(cores[tid])->storeAndRecord(addr);
 }

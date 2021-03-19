@@ -64,7 +64,8 @@ zsim_roi_begin();
 pim_mp_begin();
 #pragma omp parallel
   {
-#pragma omp for
+    // pim_blk_begin();
+#pragma omp for schedule(runtime)
     for (i = 0; i < _PB_NX; i++)
     {
       tmp[i] = 0;
@@ -72,13 +73,14 @@ pim_mp_begin();
         tmp[i] = tmp[i] + A[i][j] * x[j];
       }
     }
-#pragma omp for
+#pragma omp for schedule(runtime)
     for (i = 0; i < _PB_NY; i++){
       y[i] = 0;
       for (j = 0; j < _PB_NX; j++){
         y[i] = y[i] + A[j][i] * tmp[j];
       }
     }
+    // pim_blk_end();
   }
 pim_mp_end();
 #pragma endscop

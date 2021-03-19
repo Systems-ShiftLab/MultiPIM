@@ -298,7 +298,18 @@ uint64_t OOOCore::do_offload(uint64_t curCycle)
     return reqSatisfiedCycle;
 }
 
-inline void OOOCore::bbl(Address bblAddr, BblInfo* bblInfo) {
+inline bool OOOCore::inOffloadBLK(){
+    bool cur_pim_bbl = false;
+
+    if(threadBBLStatus->offload_code){
+        cur_pim_bbl = true;
+    }else if(threadBBLStatus->need_offload){
+        cur_pim_bbl = true;
+    }
+    return cur_pim_bbl;
+}
+
+inline void OOOCore::bbl(Address bblAddr, BblInfo* bblInfo, bool cur_pim_bbl) {
     if (!prevBbl) {
         // This is the 1st BBL since scheduled, nothing to simulate
         prevBbl = bblInfo;
@@ -323,17 +334,17 @@ inline void OOOCore::bbl(Address bblAddr, BblInfo* bblInfo) {
     prevBbl = bblInfo;
     prevAddr = bblAddr;
 
-    bool cur_pim_bbl = false;
+    // bool cur_pim_bbl = inOffloadBLK();
 
-    if(get_offload_code()){
-        cur_pim_bbl = true;
-    }else if(threadBBLStatus->need_offload){
-        cur_pim_bbl = true;
-    }
+    // if(get_offload_code()){
+    //     cur_pim_bbl = true;
+    // }else if(threadBBLStatus->need_offload){
+    //     cur_pim_bbl = true;
+    // }
     
-    if(zinfo->skipNonOffloadBBL){
-        cur_pim_bbl = true;
-    }
+    // if(zinfo->skipNonOffloadBBL){
+    //     cur_pim_bbl = true;
+    // }
 
     /* Simulate execution of previous BBL */
 
@@ -665,14 +676,26 @@ void OOOCore::advance(uint64_t targetCycle) {
 // Pin interface code
 
 void OOOCore::LoadFunc(THREADID tid, ADDRINT addr, UINT32 size, BOOL inOffloadRegion) {
-    if(zinfo->skipNonOffloadBBL && !inOffloadRegion)
+    OOOCore* core = static_cast<OOOCore*>(cores[tid]);
+    bool cur_pim_bbl = inOffloadRegion;
+    if(! cur_pim_bbl && core->inOffloadBLK())
+        cur_pim_bbl = true;
+
+    if(zinfo->skipNonOffloadBBL && !cur_pim_bbl)
         return;
-    static_cast<OOOCore*>(cores[tid])->load(addr, size);
+    core->load(addr, size);
+    // static_cast<OOOCore*>(cores[tid])->load(addr, size);
 }
 void OOOCore::StoreFunc(THREADID tid, ADDRINT addr, UINT32 size, BOOL inOffloadRegion) {
-    if(zinfo->skipNonOffloadBBL && !inOffloadRegion)
+    OOOCore* core = static_cast<OOOCore*>(cores[tid]);
+    bool cur_pim_bbl = inOffloadRegion;
+    if(! cur_pim_bbl && core->inOffloadBLK())
+        cur_pim_bbl = true;
+
+    if(zinfo->skipNonOffloadBBL && !cur_pim_bbl)
         return;
-    static_cast<OOOCore*>(cores[tid])->store(addr, size);
+    core->store(addr, size);
+    // static_cast<OOOCore*>(cores[tid])->store(addr, size);
 }
 
 //LOIS
@@ -680,28 +703,43 @@ void OOOCore::OffloadBegin(THREADID tid) {static_cast<OOOCore*>(cores[tid])->off
 void OOOCore::OffloadEnd(THREADID tid) {static_cast<OOOCore*>(cores[tid])->offloadFunction_end();}
 
 void OOOCore::PredLoadFunc(THREADID tid, ADDRINT addr, BOOL pred, UINT32 size, BOOL inOffloadRegion) {
-    if(zinfo->skipNonOffloadBBL && !inOffloadRegion)
-        return;
     OOOCore* core = static_cast<OOOCore*>(cores[tid]);
+    bool cur_pim_bbl = inOffloadRegion;
+    if(! cur_pim_bbl && core->inOffloadBLK())
+        cur_pim_bbl = true;
+
+    if(zinfo->skipNonOffloadBBL && !cur_pim_bbl)
+        return;
     if (pred) core->load(addr, size);
     else core->predFalseMemOp();
 }
 
 void OOOCore::PredStoreFunc(THREADID tid, ADDRINT addr, BOOL pred, UINT32 size, BOOL inOffloadRegion) {
-    if(zinfo->skipNonOffloadBBL && !inOffloadRegion)
-        return;
     OOOCore* core = static_cast<OOOCore*>(cores[tid]);
+
+    bool cur_pim_bbl = inOffloadRegion;
+    if(! cur_pim_bbl && core->inOffloadBLK())
+        cur_pim_bbl = true;
+
+    if(zinfo->skipNonOffloadBBL && !cur_pim_bbl)
+        return;
+
     if (pred) core->store(addr, size);
     else core->predFalseMemOp();
 }
 
 void OOOCore::BblFunc(THREADID tid, ADDRINT bblAddr, BblInfo* bblInfo, BOOL inOffloadRegion) {
-  if(zinfo->skipNonOffloadBBL && !inOffloadRegion)
-      return;
 
   OOOCore* core = static_cast<OOOCore*>(cores[tid]);
 
-  core->bbl(bblAddr, bblInfo);
+  bool cur_pim_bbl = inOffloadRegion;
+  if(! cur_pim_bbl && core->inOffloadBLK())
+    cur_pim_bbl = true;
+
+  if(zinfo->skipNonOffloadBBL && !cur_pim_bbl)
+    return;
+
+  core->bbl(bblAddr, bblInfo, cur_pim_bbl);
 
   while (core->curCycle > core->phaseEndCycle) {
     core->phaseEndCycle += zinfo->phaseLength;
@@ -720,9 +758,15 @@ void OOOCore::BblFunc(THREADID tid, ADDRINT bblAddr, BblInfo* bblInfo, BOOL inOf
 }
 
 void OOOCore::BranchFunc(THREADID tid, ADDRINT pc, BOOL taken, ADDRINT takenNpc, ADDRINT notTakenNpc, BOOL inOffloadRegion) {
-    if(zinfo->skipNonOffloadBBL && !inOffloadRegion)
+    OOOCore* core = static_cast<OOOCore*>(cores[tid]);
+    bool cur_pim_bbl = inOffloadRegion;
+    if(! cur_pim_bbl && core->inOffloadBLK())
+        cur_pim_bbl = true;
+
+    if(zinfo->skipNonOffloadBBL && !cur_pim_bbl)
         return;
-    static_cast<OOOCore*>(cores[tid])->branch(pc, taken, takenNpc, notTakenNpc);
+    core->branch(pc, taken, takenNpc, notTakenNpc);
+    // static_cast<OOOCore*>(cores[tid])->branch(pc, taken, takenNpc, notTakenNpc);
 }
 
 uint64_t OOOCore::clflush( Address startAddr, uint64_t startCycle)

@@ -90,6 +90,7 @@ class PIMCore : public Core {
         inline void storeAndRecord(Address addr);
         inline void bblAndRecord(Address bblAddr, BblInfo* bblInstrs);
         inline void record(uint64_t startCycle);
+        inline bool inOffloadBLK();
         
         // LOIS: TODO: offloaded code
         void offloadFunction_begin();

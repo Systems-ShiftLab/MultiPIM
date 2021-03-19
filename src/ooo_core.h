@@ -514,7 +514,8 @@ class OOOCore : public Core {
 
         inline void branch(Address pc, bool taken, Address takenNpc, Address notTakenNpc);
 
-        inline void bbl(Address bblAddr, BblInfo* bblInfo);
+        inline void bbl(Address bblAddr, BblInfo* bblInfo, bool cur_pim_bbl);
+        inline bool inOffloadBLK();
 
         static void OffloadBegin(THREADID tid);
         static void OffloadEnd(THREADID tid);

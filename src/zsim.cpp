@@ -195,30 +195,29 @@ VOID FFThread(VOID* arg);
 
 InstrFuncPtrs fPtrs[MAX_THREADS] ATTR_LINE_ALIGNED; //minimize false sharing
 
-// | zinfo->sched->isInOffloadRegion(procIdx, tid)
 VOID PIN_FAST_ANALYSIS_CALL IndirectLoadSingle(THREADID tid, ADDRINT addr, UINT32 size, BOOL inOffloadRegion) {
-    fPtrs[tid].loadPtr(tid, addr, size,inOffloadRegion | zinfo->sched->isInOffloadRegion(procIdx, tid));
+    fPtrs[tid].loadPtr(tid, addr, size,inOffloadRegion);
 }
 
 VOID PIN_FAST_ANALYSIS_CALL IndirectStoreSingle(THREADID tid, ADDRINT addr, UINT32 size, BOOL inOffloadRegion) {
-    fPtrs[tid].storePtr(tid, addr, size,inOffloadRegion | zinfo->sched->isInOffloadRegion(procIdx, tid));
+    fPtrs[tid].storePtr(tid, addr, size,inOffloadRegion);
 }
 
 
 VOID PIN_FAST_ANALYSIS_CALL IndirectBasicBlock(THREADID tid, ADDRINT bblAddr, BblInfo* bblInfo, BOOL inOffloadRegion) {
-    fPtrs[tid].bblPtr(tid, bblAddr, bblInfo,inOffloadRegion | zinfo->sched->isInOffloadRegion(procIdx, tid));
+    fPtrs[tid].bblPtr(tid, bblAddr, bblInfo,inOffloadRegion);
 }
 
 VOID PIN_FAST_ANALYSIS_CALL IndirectRecordBranch(THREADID tid, ADDRINT branchPc, BOOL taken, ADDRINT takenNpc, ADDRINT notTakenNpc, BOOL inOffloadRegion) {
-    fPtrs[tid].branchPtr(tid, branchPc, taken, takenNpc, notTakenNpc,inOffloadRegion | zinfo->sched->isInOffloadRegion(procIdx, tid));
+    fPtrs[tid].branchPtr(tid, branchPc, taken, takenNpc, notTakenNpc,inOffloadRegion);
 }
 
 VOID PIN_FAST_ANALYSIS_CALL IndirectPredLoadSingle(THREADID tid, ADDRINT addr, BOOL pred, UINT32 size, BOOL inOffloadRegion) {
-    fPtrs[tid].predLoadPtr(tid, addr, pred, size,inOffloadRegion | zinfo->sched->isInOffloadRegion(procIdx, tid));
+    fPtrs[tid].predLoadPtr(tid, addr, pred, size,inOffloadRegion);
 }
 
 VOID PIN_FAST_ANALYSIS_CALL IndirectPredStoreSingle(THREADID tid, ADDRINT addr, BOOL pred, UINT32 size, BOOL inOffloadRegion) {
-    fPtrs[tid].predStorePtr(tid, addr, pred, size,inOffloadRegion | zinfo->sched->isInOffloadRegion(procIdx, tid));
+    fPtrs[tid].predStorePtr(tid, addr, pred, size,inOffloadRegion);
 }
 
 
@@ -995,7 +994,7 @@ void SimThreadStart(THREADID tid) {
 			futex_unlock(&zinfo->enter_lock);
 		}
 	}
-    zinfo->sched->start(procIdx, tid, procTreeNode->getMask());
+    zinfo->sched->start(procIdx, tid, procTreeNode->getMask(),procTreeNode->isInOffloadRegion());
     activeThreads[tid] = true;
 
     //Pinning
@@ -1413,13 +1412,13 @@ VOID HandleMagicOp(THREADID tid, ADDRINT op) {
         case ZSIM_MAGIC_OP_PIM_BLK_BEGIN:
             info("[PIM_BLK_BEGIN]");
             fPtrs[tid].OffloadBegin(tid);
-            assert(!procTreeNode->isInOffloadRegion());
-            zinfo->sched->enterOffloadRegion(procIdx, tid);
+            // assert(!procTreeNode->isInOffloadRegion());
+            // zinfo->sched->enterOffloadRegion(procIdx, tid);
             return;
 	    case ZSIM_MAGIC_OP_PIM_BLK_END:
             info("[PIM_BLK_END]");
             fPtrs[tid].OffloadEnd(tid);
-            zinfo->sched->exitOffloadRegion(procIdx, tid);
+            // zinfo->sched->exitOffloadRegion(procIdx, tid);
             return;
         case ZSIM_MAGIC_OP_PIM_MP_BEGIN:
             if (!zinfo->ignoreHooks) {

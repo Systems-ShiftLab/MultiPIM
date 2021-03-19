@@ -117,7 +117,8 @@ sh compile.sh opt
     	
     }
     ```
-    These two kinds of interfaces cannot be nested. Please check the `tests/benchmarks` directory for more examples. Currently, the PIM Block interface is supported for single thread/process application but not fully supported for multithreading, which will be fully supported in the next release. 
+    These two kinds of interfaces cannot be nested. Please check the `tests/benchmarks` directory for more examples.
+    If PIM Multi-Processing interface is used, the PIM thread scheduler captures the creation of a PIM thread, and pins that PIM thread to a PIM core. However, if PIM Block interface is used, the PIM thread scheduler can't capture the creation of a thread, and PIM blocks in the same thread can be executed in a random PIM core.
 
 * You may need to compile the test first:
 ```

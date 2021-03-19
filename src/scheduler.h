@@ -346,7 +346,7 @@ class Scheduler : public GlobAlloc, public Callee {
             }
         }
 
-        void start(uint32_t pid, uint32_t tid, const g_vector<bool>& mask) {
+        void start(uint32_t pid, uint32_t tid, const g_vector<bool>& mask, bool inOffloadRegion=false) {
             futex_lock(&schedLock);
             uint32_t gid = getGid(pid, tid);
             //info("[G %d] Start", gid);
@@ -356,7 +356,7 @@ class Scheduler : public GlobAlloc, public Callee {
             // - SYS_getpid because after a fork (where zsim calls ThreadStart),
             //   getpid() returns the parent's pid (getpid() caches, and I'm
             //   guessing it hasn't flushed its cached pid at this point)
-            if(zinfo->enable_pim_mode){
+            if(zinfo->enable_pim_mode && inOffloadRegion){
                 g_vector<bool> new_mask;
                 new_mask.resize(numCores);
                 schedulePIMThread(gid,mask,new_mask);
