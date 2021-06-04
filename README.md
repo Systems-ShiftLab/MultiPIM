@@ -147,4 +147,4 @@ cd tests
 
 Support or Contact
 -----
-MultiPIM is developed by Chao Yu. For any questions, please contact Chao Yu (yuchaocs@gmail.com).
+MultiPIM is developed by Chao Yu. For any questions, please contact Chao Yu (yc9uf@virginia.edu).
