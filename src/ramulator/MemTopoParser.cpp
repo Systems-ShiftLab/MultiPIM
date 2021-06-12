@@ -36,6 +36,8 @@
  */
 
 #include <iostream>
+#include <cstring>
+#include <string>
 #include "MemTopoParser.h"
 #include "XMLParser.h"
 
@@ -97,10 +99,10 @@ void MemTopoParser::startElement(const string &name, const Attributes &attrs)
 			memoryTopology.cpuroutes.resize(memoryTopology.nodenum);
 			for (int i = 0; i < memoryTopology.nodenum; i++){
 				memoryTopology.routes[i].resize(memoryTopology.nodenum);
-				for (int j = 0; j < memoryTopology.nodenum; j++){
-					memoryTopology.routes[i][j] = -1;
-				}
-				memoryTopology.cpuroutes[i] = -1;
+				// for (int j = 0; j < memoryTopology.nodenum; j++){
+				// 	memoryTopology.routes[i][j] = -1;
+				// }
+				// memoryTopology.cpuroutes[i] = -1;
 			}
 		}else{
 			std::cout<<"Unsupported route type"<<std::endl;
@@ -110,19 +112,35 @@ void MemTopoParser::startElement(const string &name, const Attributes &attrs)
 		assert(memoryTopology.route_type == STATIC_ROUTE);
 		int src = atoi(getValue("src", attrs).c_str());
 		int dst = atoi(getValue("dst", attrs).c_str());
-		int next = atoi(getValue("next", attrs).c_str());
 		assert(src >=0 && src < memoryTopology.nodenum);
 		assert(dst >=0 && dst < memoryTopology.nodenum);
-		assert(next >=src*memoryTopology.linkspernode && next < ((src+1)*memoryTopology.linkspernode));
-		memoryTopology.routes[src][dst] = next;
+		std::string next_str = getValue("next", attrs);
+		char * cstr = new char[next_str.length()+1];
+		std::strcpy(cstr,next_str.c_str());
+		char*p = std::strtok(cstr,",");
+		while(p!=0){
+			int next = atoi(p);
+			assert(next >=src*memoryTopology.linkspernode && next < ((src+1)*memoryTopology.linkspernode));
+			memoryTopology.routes[src][dst].push_back(next);
+			p = std::strtok(NULL, ",");
+		}
+		delete[] cstr;
 	}else if(name == "cpuroute"){
 		assert(memoryTopology.route_type == STATIC_ROUTE);
 		int dst = atoi(getValue("dst", attrs).c_str());
-		int next = atoi(getValue("next", attrs).c_str());
 		assert(dst >=0 && dst < memoryTopology.nodenum);
-		assert(next >=0 && next < (memoryTopology.nodenum * memoryTopology.linkspernode));
-		assert(memoryTopology.nodes[next/memoryTopology.linkspernode][next%memoryTopology.linkspernode]);
-		memoryTopology.cpuroutes[dst] = next;
+		std::string next_str = getValue("next", attrs);
+		char * cstr = new char[next_str.length()+1];
+		std::strcpy(cstr,next_str.c_str());
+		char*p = std::strtok(cstr,",");
+		while(p!=0){
+			int next = atoi(p);
+			assert(next >=0 && next < (memoryTopology.nodenum * memoryTopology.linkspernode));
+			assert(memoryTopology.nodes[next/memoryTopology.linkspernode][next%memoryTopology.linkspernode]);
+			memoryTopology.cpuroutes[dst].push_back(next);
+			p = std::strtok(NULL, ",");
+		}
+		delete[] cstr;
 	}
 } // MemTopoParser::startElement
 

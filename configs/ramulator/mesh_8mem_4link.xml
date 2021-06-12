@@ -1,0 +1,150 @@
+<!DOCTYPE memtopology SYSTEM "memtopology.dtd">
+<memtopology>
+  <memnodes num="8" linkspernode="4">
+    <node id="0">
+        <link id="0" tocpu="true" />
+        <link id="1" tocpu="false" />
+        <link id="2" tocpu="false" />
+        <link id="3" tocpu="false" />
+    </node>
+    <node id="1">
+        <link id="4" tocpu="false" />
+        <link id="5" tocpu="false" />
+        <link id="6" tocpu="false" />
+        <link id="7" tocpu="false" />
+    </node>
+    <node id="2">
+        <link id="8" tocpu="false" />
+        <link id="9" tocpu="false" />
+        <link id="10" tocpu="false" />
+        <link id="11" tocpu="false" />
+    </node>
+    <node id="3">
+        <link id="12" tocpu="true" />
+        <link id="13" tocpu="false" />
+        <link id="14" tocpu="false" />
+        <link id="15" tocpu="false" />
+    </node>
+    <node id="4">
+        <link id="16" tocpu="true" />
+        <link id="17" tocpu="false" />
+        <link id="18" tocpu="false" />
+        <link id="19" tocpu="false" />
+    </node>
+    <node id="5">
+        <link id="20" tocpu="false" />
+        <link id="21" tocpu="false" />
+        <link id="22" tocpu="false" />
+        <link id="23" tocpu="false" />
+    </node>
+    <node id="6">
+        <link id="24" tocpu="false" />
+        <link id="25" tocpu="false" />
+        <link id="26" tocpu="false" />
+        <link id="27" tocpu="false" />
+    </node>
+    <node id="7">
+        <link id="28" tocpu="true" />
+        <link id="29" tocpu="false" />
+        <link id="30" tocpu="false" />
+        <link id="31" tocpu="false" />
+    </node>
+  </memnodes>
+
+  <meminterconnections>
+    <interconnection from="1" to="4" type="undirected" />
+    <interconnection from="2" to="17" type="undirected" />
+    <interconnection from="7" to="21" type="undirected" />
+    <interconnection from="18" to="20" type="undirected" />
+
+    <interconnection from="10" to="15" type="undirected" />
+    <interconnection from="11" to="25" type="undirected" />
+    <interconnection from="14" to="31" type="undirected" />
+    <interconnection from="26" to="30" type="undirected" />
+
+    <interconnection from="6" to="8" type="undirected" />
+    <interconnection from="22" to="24" type="undirected" />
+  </meminterconnections>
+
+  <!--
+      Define routing rules. 
+      src: is the source memory node
+      dst: is the destinate memory node
+      next: is the routing link in source emory node
+  -->
+  <memroutes type="static">
+    <route src="0" dst="1" next="1"/>
+    <route src="0" dst="2" next="1"/>
+    <route src="0" dst="3" next="1"/>
+    <route src="0" dst="4" next="2"/>
+    <route src="0" dst="5" next="1"/>
+    <route src="0" dst="6" next="1"/>
+    <route src="0" dst="7" next="1"/>
+
+    <route src="1" dst="0" next="4"/>
+    <route src="1" dst="2" next="6"/>
+    <route src="1" dst="3" next="6"/>
+    <route src="1" dst="4" next="4"/>
+    <route src="1" dst="5" next="7"/>
+    <route src="1" dst="6" next="6"/>
+    <route src="1" dst="7" next="6"/>
+
+    <route src="2" dst="0" next="8"/>
+    <route src="2" dst="1" next="8"/>
+    <route src="2" dst="3" next="10"/>
+    <route src="2" dst="4" next="8"/>
+    <route src="2" dst="5" next="8"/>
+    <route src="2" dst="6" next="11"/>
+    <route src="2" dst="7" next="10"/>
+
+    <route src="3" dst="0" next="15"/>
+    <route src="3" dst="1" next="15"/>
+    <route src="3" dst="2" next="15"/>
+    <route src="3" dst="4" next="15"/>
+    <route src="3" dst="5" next="15"/>
+    <route src="3" dst="6" next="15"/>
+    <route src="3" dst="7" next="14"/>
+
+    <route src="4" dst="0" next="17"/>
+    <route src="4" dst="1" next="18"/>
+    <route src="4" dst="2" next="18"/>
+    <route src="4" dst="3" next="18"/>
+    <route src="4" dst="5" next="18"/>
+    <route src="4" dst="6" next="18"/>
+    <route src="4" dst="7" next="18"/>
+
+    <route src="5" dst="0" next="20"/>
+    <route src="5" dst="1" next="21"/>
+    <route src="5" dst="2" next="22"/>
+    <route src="5" dst="3" next="22"/>
+    <route src="5" dst="4" next="20"/>
+    <route src="5" dst="6" next="22"/>
+    <route src="5" dst="7" next="22"/>
+
+    <route src="6" dst="0" next="24"/>
+    <route src="6" dst="1" next="24"/>
+    <route src="6" dst="2" next="25"/>
+    <route src="6" dst="3" next="26"/>
+    <route src="6" dst="4" next="24"/>
+    <route src="6" dst="5" next="24"/>
+    <route src="6" dst="7" next="26"/>
+
+    <route src="7" dst="0" next="30"/>
+    <route src="7" dst="1" next="30"/>
+    <route src="7" dst="2" next="30"/>
+    <route src="7" dst="3" next="31"/>
+    <route src="7" dst="4" next="30"/>
+    <route src="7" dst="5" next="30"/>
+    <route src="7" dst="6" next="30"/>
+
+    <cpuroute dst="0" next="0"/>
+    <cpuroute dst="1" next="0"/>
+    <cpuroute dst="2" next="12"/>
+    <cpuroute dst="3" next="12"/>
+    <cpuroute dst="4" next="16"/>
+    <cpuroute dst="5" next="16"/>
+    <cpuroute dst="6" next="28"/>
+    <cpuroute dst="7" next="28"/>
+
+  </memroutes>
+</memtopology>

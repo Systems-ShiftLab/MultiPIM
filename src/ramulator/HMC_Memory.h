@@ -781,63 +781,63 @@ public:
 
         // by hop        
         memory_access_num_by_hop
-            .init(stacks*2)
+            .init(stacks*2+1)
             .name("memory_access_num_by_hop")
             .desc("Record the number of total memory access by hop")
             .precision(0)
             ;
 
         memory_access_latency_by_hop_avg
-            .init(stacks*2)
+            .init(stacks*2+1)
             .name("memory_access_latency_by_hop_avg")
             .desc("Record memory access latency avg by hop")
             .precision(6)
             ;
 
         request_packet_latency_by_hop_avg
-            .init(stacks*2)
+            .init(stacks*2+1)
             .name("request_packet_latency_by_hop_avg")
             .desc("The average memory latency cycles (in memory time domain) by hop per request for all request packets transmission")
             .precision(6)
             ;
 
         response_packet_latency_by_hop_avg
-            .init(stacks*2)
+            .init(stacks*2+1)
             .name("response_packet_latency_by_hop_avg")
             .desc("The average memory latency cycles (in memory time domain) by hop per response for all read/write response packets transmission")
             .precision(6)
             ;
         
         request_packet_network_latency_by_hop_avg
-            .init(stacks*2)
+            .init(stacks*2+1)
             .name("request_packet_network_latency_by_hop_avg")
             .desc("The memory network latency cycles per request (in memory time domain) by hop for all request packets transmission")
             .precision(6)
             ;
         
         response_packet_network_latency_by_hop_avg
-            .init(stacks*2)
+            .init(stacks*2+1)
             .name("response_packet_network_latency_by_hop_avg")
             .desc("The memory network latency cycles per response (in memory time domain) by hop for all response packets transmission")
             .precision(6)
             ;
         ///////
         memory_access_network_latency_by_hop_avg
-            .init(stacks*2)
+            .init(stacks*2+1)
             .name("memory_access_network_latency_by_hop_avg")
             .desc("Record memory access network latency avg by hop")
             .precision(6)
             ;
 
         req_end_switch_latency_by_hop_avg
-            .init(stacks*2)
+            .init(stacks*2+1)
             .name("req_end_switch_latency_by_hop_avg")
             .desc("The end vault switch latency of request packet avg by hop")
             .precision(6)
             ;
 
         resp_end_switch_latency_by_hop_avg
-            .init(stacks*2)
+            .init(stacks*2+1)
             .name("resp_end_switch_latency_by_hop_avg")
             .desc("The end vault switch latency of response packet avg by hop")
             .precision(6)
@@ -1673,7 +1673,7 @@ public:
         req_end_switch_latency_avg = req_end_switch_latency_sum.value() / (total_read_req + total_write_req);
         resp_end_switch_latency_avg = resp_end_switch_latency_sum.value() / (total_read_req + total_write_req);
 
-        for (int i = 0; i < stacks*2 ; ++i){
+        for (int i = 0; i <= stacks*2 ; ++i){
             if(memory_access_num_by_hop[i].value()){
                 memory_access_latency_by_hop_avg[i] = (float)memory_access_latency_by_hop_sum[i]/memory_access_num_by_hop[i].value();
                 request_packet_latency_by_hop_avg[i] = (float)request_packet_latency_by_hop_sum[i]/memory_access_num_by_hop[i].value();
@@ -1760,9 +1760,10 @@ private:
                 if(!memTopology.nodes[nodeId][innerlinkId]){
                     int outerlinkId = nodeId*memTopology.linkspernode + innerlinkId;
                     int neighlinkId = memTopology.interconnections[outerlinkId];
-                    assert(neighlinkId != -1);
-                    int neighnodeId = neighlinkId/memTopology.linkspernode;
-                    logic_layers[nodeId]->get_link_by_num(outerlinkId)->set_other_side_link(logic_layers[neighnodeId]->get_link_by_num(neighlinkId));
+                    if(neighlinkId != -1){
+                        int neighnodeId = neighlinkId/memTopology.linkspernode;
+                        logic_layers[nodeId]->get_link_by_num(outerlinkId)->set_other_side_link(logic_layers[neighnodeId]->get_link_by_num(neighlinkId));
+                    }
                 }
             }
         }

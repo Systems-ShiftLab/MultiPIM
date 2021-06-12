@@ -1,2 +1,2 @@
 source ../test-env.sh
-$ZSIM_BIN_PATH/zsim ./pim.cfg cmd.cfg ./output
+$ZSIM_BIN_PATH/zsim ./pim16.cfg cmd.cfg ./output

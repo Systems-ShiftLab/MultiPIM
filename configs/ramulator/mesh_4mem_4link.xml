@@ -1,0 +1,68 @@
+<!DOCTYPE memtopology SYSTEM "memtopology.dtd">
+<memtopology>
+  <memnodes num="4" linkspernode="4">
+    <node id="0">
+        <link id="0" tocpu="true" />
+        <link id="1" tocpu="false" />
+        <link id="2" tocpu="false" />
+        <link id="3" tocpu="false" />
+    </node>
+    <node id="1">
+        <link id="4" tocpu="true" />
+        <link id="5" tocpu="false" />
+        <link id="6" tocpu="false" />
+        <link id="7" tocpu="false" />
+    </node>
+    <node id="2">
+        <link id="8" tocpu="true" />
+        <link id="9" tocpu="false" />
+        <link id="10" tocpu="false" />
+        <link id="11" tocpu="false" />
+    </node>
+    <node id="3">
+        <link id="12" tocpu="true" />
+        <link id="13" tocpu="false" />
+        <link id="14" tocpu="false" />
+        <link id="15" tocpu="false" />
+    </node>
+  </memnodes>
+
+  <meminterconnections>
+    <interconnection from="1" to="7" type="undirected" />
+    <interconnection from="2" to="9" type="undirected" />
+    <interconnection from="6" to="15" type="undirected" />
+    <interconnection from="10" to="14" type="undirected" />
+
+  </meminterconnections>
+
+  <!--
+      Define routing rules. 
+      src: is the source memory node
+      dst: is the destinate memory node
+      next: is the routing link in source emory node
+  -->
+  <memroutes type="static">
+    <route src="0" dst="1" next="1"/>
+    <route src="0" dst="2" next="2"/>
+    <route src="0" dst="3" next="1"/>
+
+    <route src="1" dst="0" next="7"/>
+    <route src="1" dst="2" next="7"/>
+    <route src="1" dst="3" next="6"/>
+
+    <route src="2" dst="0" next="9"/>
+    <route src="2" dst="1" next="10"/>
+    <route src="2" dst="3" next="10"/>
+
+    <route src="3" dst="0" next="14"/>
+    <route src="3" dst="1" next="15"/>
+    <route src="3" dst="2" next="14"/>
+
+
+    <cpuroute dst="0" next="0"/>
+    <cpuroute dst="1" next="4"/>
+    <cpuroute dst="2" next="8"/>
+    <cpuroute dst="3" next="12"/>
+
+  </memroutes>
+</memtopology>

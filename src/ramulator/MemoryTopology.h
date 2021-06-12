@@ -56,14 +56,19 @@ namespace ramulator
 		int getCPURouteLink(int dst_node){
 			if(route_type == STATIC_ROUTE){
 				assert(dst_node >= 0 && dst_node < nodenum);
-				return cpuroutes[dst_node];
+				//return the first available available link by default
+				return cpuroutes[dst_node][0];
 			}
 			return -1;
 		}
 		int getRouteLink(int src_node, int dst_node){
 			if(route_type == STATIC_ROUTE){
 				assert((src_node >=0 && src_node < nodenum) && (dst_node >=0 && dst_node < nodenum));
-				return routes[src_node][dst_node];
+				//return the first available available link by default
+				if(!routes[src_node][dst_node].empty())
+					return routes[src_node][dst_node][0];
+				
+				return -1;
 			}
 			return -1;
 		}
@@ -112,8 +117,10 @@ namespace ramulator
 		ROUTE_TYPE route_type;
 		std::vector<std::vector<bool>> nodes; //<link_vector>, true: link to cpu (source mode link)
 		std::vector<int> interconnections;	  //link->link
-		std::vector<std::vector<int> > routes;//node-node-link
-		std::vector<int> cpuroutes;//cpu-node-link
+		// std::vector<std::vector<int> > routes;//node-node-link
+		// std::vector<int> cpuroutes;//cpu-node-link
+		std::vector<std::vector<std::vector<int> > > routes;//node-node-link_list
+		std::vector<std::vector<int> > cpuroutes;//cpu-node-link_list
 	};
 } // namespace ramulator
 #endif // ifndef RAMULATOR_MEMORY_TOPOLOGY_H

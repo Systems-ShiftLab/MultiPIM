@@ -662,11 +662,11 @@ configure:16453: checking lex output file root
 configure:16467: result: lex.yy
 configure:16472: checking lex library
 configure:16486: gcc -o conftest -g -O2   conftest.c   >&5
-/tmp/ccTJsRC5.o: In function `input':
+/tmp/ccppSWNz.o: In function `input':
 /home/yuchao/Workspace/PIM/MultiPIM/common/libconfig/lex.yy.c:1180: undefined reference to `yywrap'
-/tmp/ccTJsRC5.o: In function `yylex':
+/tmp/ccppSWNz.o: In function `yylex':
 /home/yuchao/Workspace/PIM/MultiPIM/common/libconfig/lex.yy.c:871: undefined reference to `yywrap'
-/tmp/ccTJsRC5.o: In function `main':
+/tmp/ccppSWNz.o: In function `main':
 /home/yuchao/Workspace/PIM/MultiPIM/common/libconfig/conftest.l:17: undefined reference to `yywrap'
 collect2: error: ld returned 1 exit status
 configure:16486: $? = 1
