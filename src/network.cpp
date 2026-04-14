@@ -27,6 +27,7 @@
 #include <fstream>
 #include <string>
 #include "log.h"
+#include <cstdint>
 
 using std::ifstream;
 using std::string;

@@ -1,5 +1,5 @@
-
-ZSIM_PATH="/u/yc9uf/Workspace/MultiPIM"
+ZSIM_PATH="/home/wm/MultiPIM"
+#ZSIM_PATH="/u/yc9uf/Workspace/MultiPIM"
 ZSIM_BIN_PATH="$ZSIM_PATH/build/opt"
 LIB_ZSIM_PATH="$ZSIM_PATH/build/opt"
 OMP_NUM_THREADS=512

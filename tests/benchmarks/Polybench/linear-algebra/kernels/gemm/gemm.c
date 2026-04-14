@@ -19,6 +19,12 @@
 /* Default data type is double, default size is 4000. */
 #include "gemm.h"
 
+/* --- 添加 MultiPIM Hook 头文件 --- */
+
+#include "misc/hooks/zsim_hooks.h"
+// #include "zsim-pim/misc/hooks/zsim_hooks.h"
+/* --- End of Addition --- */
+
 /* Array initialization. */
 static void init_array(int ni, int nj, int nk,
                        DATA_TYPE *alpha,
@@ -69,24 +75,41 @@ static void kernel_gemm(int ni, int nj, int nk,
                         DATA_TYPE POLYBENCH_2D(B, NK, NJ, nk, nj))
 {
   int i, j, k;
-zsim_roi_begin();
-#pragma scop
-pim_mp_begin();
-#pragma omp parallel
+
+  /* --- MultiPIM PIM Multi-Processing Interface 标记开始 --- */
+  /* 
+   * zsim_roi_begin() and pim_mp_begin() must be included in a serial part of the code.
+   * The kernel_gemm function itself is called from main and runs serially until
+   * the #pragma omp parallel block is encountered. Therefore, placing the markers here
+   * is correct according to the MultiPIM specification.
+   */
+  zsim_roi_begin(); // It must be included in a serial part of the code.
+  pim_mp_begin();   // Indicates the beginning of PIM offload region to simulate (hotspot).
+
+  #pragma scop
+  #pragma omp parallel // This creates parallel threads (which will be scheduled to PIM cores)
   {
-/* C := alpha*A*B + beta*C */
-#pragma omp for private(j, k)
-    for (i = 0; i < _PB_NI; i++)
-      for (j = 0; j < _PB_NJ; j++)
+      /* C := alpha*A*B + beta*C */
+      #pragma omp for private(j, k) // Each created thread works on part of the 'i' loop
+      for (i = 0; i < _PB_NI; i++)
       {
-        C[i][j] *= beta;
-        for (k = 0; k < _PB_NK; ++k)
-          C[i][j] += alpha * A[i][k] * B[k][j];
+          for (j = 0; j < _PB_NJ; j++)
+          {
+              C[i][j] *= beta;
+              for (k = 0; k < _PB_NK; ++k)
+                  C[i][j] += alpha * A[i][k] * B[k][j];
+          }
       }
-  }
-pim_mp_end();
-#pragma endscop
-zsim_roi_end();
+  } // Implicit barrier at the end of 'omp parallel'
+
+  pim_mp_end(); // Indicates the end of the PIM offload region to simulate.
+  zsim_roi_end(); // zsim_roi_end() marks the end of the ROI. 
+  /* 
+   * zsim_roi_end() and pim_mp_end() are placed after the parallel region,
+   * ensuring they are executed in the serial context after all PIM threads finish.
+   */
+  /* --- End of MultiPIM PIM Multi-Processing Interface Marking --- */
+
 }
 
 int main(int argc, char **argv)

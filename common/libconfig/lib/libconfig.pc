@@ -1,4 +1,4 @@
-prefix=/home/yuchao/Workspace/PIM/MultiPIM/common/libconfig
+prefix=/home/wm/MultiPIM/common/libconfig
 exec_prefix=${prefix}
 libdir=${exec_prefix}/lib
 includedir=${prefix}/include

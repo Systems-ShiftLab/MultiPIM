@@ -1,1 +1,4 @@
+gemm.o: gemm.c ../../../utilities/polybench.h \
+ ../../../utilities/../../../../misc/hooks/zsim_hooks.h gemm.h \
+ ../../../../../../misc/hooks/zsim_hooks.h
 polybench.o: ../../../utilities/polybench.c

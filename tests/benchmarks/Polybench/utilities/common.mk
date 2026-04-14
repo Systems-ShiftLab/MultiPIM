@@ -1,4 +1,6 @@
-INCPATHS = -I$(UTIL_DIR)
+#INCPATHS = -I$(UTIL_DIR)
+# modify INCPATHS
+INCPATHS = -I$(UTIL_DIR) -I../../../../../../
 
 BENCHMARK = $(shell basename `pwd`)
 EXE = $(BENCHMARK)
