@@ -15,6 +15,14 @@
 /* Include polybench common header. */
 #include <polybench.h>
 
+
+/* --- 添加 MultiPIM Hook 头文件 --- */
+
+#include "misc/hooks/zsim_hooks.h"
+// #include "zsim-pim/misc/hooks/zsim_hooks.h"
+/* --- End of Addition --- */
+
+
 /* Include benchmark-specific header. */
 /* Default data type is double, default size is 4000. */
 #include "atax.h"

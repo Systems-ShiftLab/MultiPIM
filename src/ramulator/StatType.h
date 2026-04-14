@@ -10,6 +10,7 @@
 #include <cmath>
 #include <cstdlib>
 #include "debug.h"
+#include <cstdint>
 
 namespace ramulator {
 

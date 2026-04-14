@@ -34,6 +34,7 @@
 
 #include <string>
 #include <unordered_map>
+#include <cstdint>
 
 class Network {
     private:
